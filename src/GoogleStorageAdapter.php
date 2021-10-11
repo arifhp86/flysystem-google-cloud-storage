@@ -147,9 +147,21 @@ class GoogleStorageAdapter extends AbstractAdapter
             // we therefore default to private
             $options['predefinedAcl'] = $this->getPredefinedAclForVisibility(AdapterInterface::VISIBILITY_PRIVATE);
         }
+        
+        $uploaderOptionKeys = [
+            'restOptions',
+            'retries',
+            'requestTimeout',
+            'chunkSize',
+            'contentType',
+            'metadata',
+            'uploadProgressCallback'
+        ];
 
-        if ($metadata = $config->get('metadata')) {
-            $options['metadata'] = $metadata;
+        foreach($uploaderOptionKeys as $uploaderOptionKey) {
+            if($config->get('metadata') !== null) {
+                $options[$uploaderOptionKey] = $config->get('metadata');
+            }
         }
 
         return $options;
